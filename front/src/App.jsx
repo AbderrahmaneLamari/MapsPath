@@ -11,6 +11,7 @@ function App() {
   const [route, setRoute] = useState([]);
   const [distance, setDistance] = useState(null);
 
+
   // Capture user clicks to set start and end points
   function MapClickHandler() {
     useMapEvents({
