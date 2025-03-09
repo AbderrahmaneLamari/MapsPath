@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents, Polyline } from "react-l
 import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import "./App.css";
+import { setOptions } from "leaflet";
 
 function App() {
   const [start, setStart] = useState(null);
@@ -43,10 +44,12 @@ function App() {
   const reset =  async () =>{
     setStart(null);
     setEnd(null);
+    setRoute([]);
+    setDistance(0);
   };
   return (
     <div id="mapcon">
-      <MapContainer center={[36.75, 3.04]} zoom={6} style={{ height: "500px", width: "100%" }}>
+      <MapContainer center={[55.75, 37.61]} zoom={10} style={{ height: "500px", width: "100%" }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <MapClickHandler />
         {start && <Marker position={start} />}
