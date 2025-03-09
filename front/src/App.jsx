@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { MapContainer, TileLayer, Marker, useMapEvents, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMapEvents, Polyline, } from "react-leaflet";
 import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import "./App.css";
-import { setOptions } from "leaflet";
+import L from 'leaflet';
 
 function App() {
   const [start, setStart] = useState(null);
@@ -47,13 +47,25 @@ function App() {
     setRoute([]);
     setDistance(0);
   };
+
+  var greenIcon = L.icon({
+    iconUrl: 'marker-ico.png',
+    shadowUrl: 'marker-shadow.png',
+
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+  });
+
   return (
     <div id="mapcon">
       <MapContainer center={[55.75, 37.61]} zoom={10} style={{ height: "500px", width: "100%" }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <MapClickHandler />
-        {start && <Marker position={start} />}
-        {end && <Marker position={end} />}
+        {start && <Marker position={start} icon={greenIcon} />}
+        {end && <Marker position={end} icon={greenIcon}/>}
         {route.length > 0 && <Polyline positions={route} color="blue" />}
       </MapContainer>
       <button onClick={fetchRoute} disabled={!start || !end} style={{ marginTop: "10px" }}>
