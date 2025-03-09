@@ -34,7 +34,7 @@ async def get_route(start_lat: float, start_lon: float, end_lat: float, end_lon:
     
     # Compute shortest route
     # route = nx.shortest_path(G, orig_node, dest_node, weight="length")
-    route = nx.astar_path(G, orig_node, dest_node, weight="length")
+    route = nx.shortest_path(G, orig_node, dest_node, weight="length")
 
     # Extract route coordinates
     route_coords = [(G.nodes[node]['y'], G.nodes[node]['x']) for node in route]
