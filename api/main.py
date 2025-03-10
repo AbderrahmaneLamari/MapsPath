@@ -31,6 +31,7 @@ async def get_hello():
 @app.options("/route/")
 async def get_options():
     return ["POST", "OPTIONS", "GET"]
+    
 @app.get("/route/")
 async def get_route(start_lat: float, start_lon: float, end_lat: float, end_lon: float):
     orig_node = ox.distance.nearest_nodes(G, start_lon, start_lat)

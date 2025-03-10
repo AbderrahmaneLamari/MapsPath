@@ -4,16 +4,14 @@ import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import "./App.css";
 import L from 'leaflet';
-import dotenv from 'dotenv';
 
-dotenv.config();
+
 
 function App() {
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [route, setRoute] = useState([]);
   const [distance, setDistance] = useState(null);
-
 
   // Capture user clicks to set start and end points
   function MapClickHandler() {
@@ -30,15 +28,13 @@ function App() {
   async function fetchRoute() {
     if (!start || !end) return;
 
-    const res = await axios.get(`${process.env.HOST}:${process.env.PORT}`, {
+    
+    const res = await axios.get(`${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT}/route/`, {
       params: {
         start_lat: start.lat,
         start_lon: start.lng,
         end_lat: end.lat,
         end_lon: end.lng,
-      },
-      headers:{
-        "Access-Control-Allow-Origin": "http://localhost:5173",
       }
     });
 
@@ -52,24 +48,13 @@ function App() {
     setDistance(0);
   };
 
-  var greenIcon = L.icon({
-    iconUrl: 'marker-ico.png',
-    shadowUrl: 'marker-shadow.png',
-
-    iconSize:     [38, 95], // size of the icon
-    shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-  });
-
   return (
     <div id="mapcon">
       <MapContainer center={[55.75, 37.61]} zoom={10} style={{ height: "500px", width: "100%" }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <MapClickHandler />
-        {start && <Marker position={start} icon={greenIcon} />}
-        {end && <Marker position={end} icon={greenIcon}/>}
+        {start && <Marker position={start} />}
+        {end && <Marker position={end} />}
         {route.length > 0 && <Polyline positions={route} color="blue" />}
       </MapContainer>
       <button onClick={fetchRoute} disabled={!start || !end} style={{ marginTop: "10px" }}>
