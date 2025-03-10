@@ -4,6 +4,9 @@ import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import "./App.css";
 import L from 'leaflet';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 function App() {
   const [start, setStart] = useState(null);
@@ -27,7 +30,7 @@ function App() {
   async function fetchRoute() {
     if (!start || !end) return;
 
-    const res = await axios.get("http://localhost:8000/route/", {
+    const res = await axios.get(`${process.env.HOST}:${process.env.PORT}`, {
       params: {
         start_lat: start.lat,
         start_lon: start.lng,

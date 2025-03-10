@@ -3,6 +3,10 @@ import osmnx as ox
 import networkx as nx
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -46,4 +50,4 @@ async def get_route(start_lat: float, start_lon: float, end_lat: float, end_lon:
     
     return {"route": route_coords, "distance_km": route_length / 1000}
 
-uvicorn.run(app, port=8000, host="0.0.0.0")
+uvicorn.run(app, port=int(os.getenv("PORT")), host="0.0.0.0")
