@@ -29,7 +29,7 @@ function App() {
     if (!start || !end) return;
 
     
-    const res = await axios.get(`${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT}/route/`, {
+    const res = await axios.get(`${import.meta.env.VITE_HOST}/route/`, {
       params: {
         start_lat: start.lat,
         start_lon: start.lng,
