@@ -50,7 +50,7 @@ function App() {
 
   return (
     <div id="mapcon">
-      <MapContainer center={[55.75, 37.61]} zoom={10} style={{ height: "500px", width: "100%" }}>
+      <MapContainer center={[36.75, 5.06]} zoom={10} style={{ height: "500px", width: "100%" }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <MapClickHandler />
         {start && <Marker position={start} />}
