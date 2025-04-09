@@ -21,7 +21,7 @@ app.add_middleware(
 )
 
 # Load the road network of Algeria
-G = ox.graph_from_place("Béjaïa", network_type="drive")
+G = ox.graph_from_place("Algiers", network_type="drive")
 
 def h(u, v):
     return abs(u - v)
@@ -64,19 +64,23 @@ async def get_route(start_lat: float, start_lon: float, end_lat: float, end_lon:
     print(orig_node)
     print(dest_node)
     
-    # Compute shortest route
-    # route = nx.shortest_path(G, orig_node, dest_node, weight="length")
-    route = a_star(G, orig_node, dest_node, haversine_heuristic)
+    try:    
 
-    # Extract route coordinates
-    route_coords = [(G.nodes[node]['y'], G.nodes[node]['x']) for node in route]
-    
-    # Compute total distance
-    _, edges_gdf = ox.graph_to_gdfs(G)  # Get route edges
-    route_edges = edges_gdf.loc[route]
-    route_length = route_edges["length"].sum()  # Sum edge lengths
-    
-    return {"route": route_coords, "distance_km": route_length / 1000}
+        # Compute shortest route
+        # route = nx.shortest_path(G, orig_node, dest_node, weight="length")
+        route = a_star(G, orig_node, dest_node, euclidean_heuristic)    
+
+        # Extract route coordinates
+        route_coords = [(G.nodes[node]['y'], G.nodes[node]['x']) for node in route]
+
+        # Compute total distance
+        _, edges_gdf = ox.graph_to_gdfs(G)  # Get route edges
+        route_edges = edges_gdf.loc[route]
+        route_length = route_edges["length"].sum()  # Sum edge lengths
+    except e as Exception:
+        print(e)
+    finally:
+        return {"route": route_coords, "distance_km": route_length / 1000}
 
 uvicorn.run(app, port=8000, host="0.0.0.0")
 
